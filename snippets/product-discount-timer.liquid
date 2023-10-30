@@ -1,0 +1,56 @@
+<div class="timer">
+    <div class="timer-inner">
+        <div>
+            <span class="text">HR</span>
+            <span class="time">00</span>
+        </div>
+        <span class="dots">:</span>
+        <div>
+            <span class="text">MIN</span>
+            <span class="time">00</span>
+        </div>
+        <span class="dots">:</span>
+        <div>
+            <span class="text">SEC</span>
+            <span class="time">00</span>
+        </div>
+    </div>
+    <p>{{ discounttimertext }}</p>
+    <div class="get-discount">
+        <p>Get <span> {{ discountlabel }} </span> off </p>
+    </div>
+</div>
+<script>
+    $(document).ready(function() {
+        // Set the initial values
+        var hours = "{{hours}}";
+        var minutes = "{{minutes}}";
+        var seconds = "{{seconds}}";
+
+        // Update the timer every second
+        var productDiscountTimer1 = setInterval(function() {
+            if (seconds > 0) {
+                seconds--;
+            } else {
+                if (minutes > 0) {
+                    minutes--;
+                    seconds = 59;
+                } else {
+                    if (hours > 0) {
+                        hours--;
+                        minutes = 59;
+                        seconds = 59;
+                    } else {
+                        // productDiscountTimer1 is complete
+                        clearInterval(productDiscountTimer1);
+                    }
+                }
+            }
+
+            // Update the timer values in the HTML
+            $(".timer-inner .time:eq(0)").text(hours < 10 ? "0" + hours : hours);
+            $(".timer-inner .time:eq(1)").text(minutes < 10 ? "0" + minutes : minutes);
+            $(".timer-inner .time:eq(2)").text(seconds < 10 ? "0" + seconds : seconds);
+        }, 1000);
+    });
+</script>

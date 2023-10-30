@@ -1,0 +1,27 @@
+{% assign discountProduct = all_products[section.settings.discount_product] %}
+{% if discountProduct %}
+<div class="image">
+    <a href="{{discountProduct.url}}">
+        {{ discountProduct.featured_image | product_img_url: "master" | img_tag }}
+    </a>
+</div>
+
+<div class="add-to-cart">
+
+    <h3 class="discount_product__name">{{ discountProduct.title }}</h3>
+    <span><b>Vendor</b> : {{ discountProduct.vendor }}</span>
+    <span><b>Category</b> : {{ custom_product_metafield }}</span>
+    <p>{{ discountProduct.description }}</p>
+    <p>{{ discountProduct.price | money }}</p>
+
+    {% assign productId = discountProduct.variants.first.id %}
+    <form method="post" action="/cart/add" class="discount-product-form" product-id="{{ productId.variants.first.id }}">
+        <input type="hidden" name="id" value="{{ productId }}" />
+        <input type="number" min="1" id="quantity" value="1"  style="display: none;" />
+        <input type="submit" value=" Add To Cart" class="btn" />
+    </form>
+
+</div>
+{% endif %}
+
+

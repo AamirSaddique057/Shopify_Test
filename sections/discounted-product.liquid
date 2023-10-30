@@ -1,0 +1,124 @@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+{{ 'discount_product.css' | asset_url | stylesheet_tag }}
+
+{%- assign hours = section.settings.hours -%}
+{%- assign minutes = section.settings.minutes -%}
+{%- assign seconds = section.settings.seconds -%}
+{%- assign discountTimerText = section.settings.discount_timer_text -%}
+{%- assign discountLabel = section.settings.discount_label -%}
+{%- assign sectionBgColor = section.settings.section_bg_color -%}
+{%- assign bgImage = section.settings.bg_image -%}
+{% assign custom_product_metafield = section.settings.custom_product_metafield %}
+
+<section class="product-discounted__wrapper"  style="{% if bgImage %} background-image: url({{ bgImage | image_url }}); {% else %} background-color:{{ sectionBgColor }}; {% endif %}">
+    <div class="text">
+        <h2>{{ section.settings.custom_text_title }}</h2>
+        <p>{{ section.settings.custom_text_body }}</p>
+    </div>
+
+    {% render 'discounted-product', custom_product_metafield:custom_product_metafield %}
+    {%- if section.settings.time_counter -%}
+        {% render 'product-discount-timer', hours:hours, minutes:minutes, seconds:seconds, discounttimertext: discountTimerText, discountlabel: discountLabel %}
+    {%- endif -%}
+</section>
+
+{% schema %}
+  {
+    "name": "Discounted Product",
+    "settings": [
+        {
+            "type": "header",
+            "content": "Section Background Settings"
+        },
+        {
+            "id": "bg_image",
+            "type": "image_picker",
+            "label": "Section Background Image"
+        },
+        {
+            "type": "color",
+            "id": "section_bg_color",
+            "label": "Section Background Color",
+            "default": "#FFA500"
+        },
+        {
+            "type": "header",
+            "content": "Section Details (Left Details)"
+        },
+        {
+            "id": "custom_text_title",
+            "type": "text",
+            "label": "Add Section Heading",
+            "default": "Get Discount"
+        },
+        {
+            "id": "custom_text_body",
+            "type": "richtext",
+            "label": "Add Product Detail "
+        },
+        {
+            "type": "header",
+            "content": "Discounted Product Details"
+        },
+        {
+            "type": "product",
+            "id": "discount_product",
+            "label": "Add Discount Product"
+        },
+        {
+            "id": "custom_product_metafield",
+            "type": "text",
+            "label": "Add Product category by Product metafields"
+        },
+        {
+            "type": "header",
+            "content": "Discounted Timer"
+        },
+        {
+            "type": "checkbox",
+            "id": "time_counter",
+            "label": "Hide Product Discount Timer",
+            "default": true
+        },
+        {
+            "id": "hours",
+            "type": "number",
+            "label": "Add Product Discount Hours",
+            "info": "You will add hours to the number i.e (6)"
+        },
+        {
+            "id": "minutes",
+            "type": "number",
+            "label": "Add Product Discount Minutes",
+            "info": "You will add minutes to the number i.e(40)"
+        },
+        {
+            "id": "seconds",
+            "type": "number",
+            "label": "Add Product Discount Second",
+            "info": "You will add seconds to the number i.e (50)"
+        },
+        {
+            "id": "discount_timer_text",
+            "type": "text",
+            "label": "Add Product advertising label",
+            "default": "Hurry up to get this Discount"
+
+        },
+        {
+            "id": "discount_label",
+            "type": "text",
+            "label": "Add the Discounted Percentage of Product",
+            "placeholder": "20%",
+            "default":"20%"
+        }
+
+    ],
+    "presets": [
+        {
+            "name": "Discounted Product",
+            "category": "products"
+        }
+    ]
+  }
+{% endschema %}
